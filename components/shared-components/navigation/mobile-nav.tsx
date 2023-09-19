@@ -20,7 +20,7 @@ import {
 // components
 import MobileNavItem from "@/components/mobile/mobile-navItem";
 
-function MobileNav() {
+const MobileNav = () => {
   const mobileNavList = [
     {
       title: "partners",
@@ -47,7 +47,7 @@ function MobileNav() {
   return (
     <div className="lg:hidden flex gap-4">
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger aria-label="open nav button">
           <MenuIcon />
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col">
@@ -79,6 +79,6 @@ function MobileNav() {
       </Sheet>
     </div>
   );
-}
+};
 
 export default MobileNav;

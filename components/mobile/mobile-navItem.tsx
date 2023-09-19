@@ -1,5 +1,8 @@
+// icon
 import { ArrowRightIcon } from "lucide-react";
+// next
 import Link from "next/link";
+// shadcn
 import { Separator } from "../ui/separator";
 
 interface Props {

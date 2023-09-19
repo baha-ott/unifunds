@@ -16,7 +16,9 @@ import {
   LinkedinIcon,
   MenuIcon,
 } from "lucide-react";
-import MobileNavItem from "@/components/mobile/mobileNavList";
+
+// components
+import MobileNavItem from "@/components/mobile/mobile-navItem";
 
 function MobileNav() {
   const mobileNavList = [
@@ -43,7 +45,7 @@ function MobileNav() {
   ];
 
   return (
-    <div className="lg:hidden">
+    <div className="lg:hidden flex gap-4">
       <Sheet>
         <SheetTrigger>
           <MenuIcon />

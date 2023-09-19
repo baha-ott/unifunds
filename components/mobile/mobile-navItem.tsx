@@ -14,7 +14,7 @@ function MobileNavItem({ title, href }: Props) {
         {title}
         <ArrowRightIcon />
       </Link>
-      <Separator className="mt-2"/>
+      <Separator className="mt-2" />
     </li>
   );
 }

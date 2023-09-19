@@ -17,8 +17,11 @@ function MainNavigation({}) {
   return (
     <>
       <header className="flex items-center justify-between mx-auto h-24 px-4">
-        <MobileNav />
-        <div aria-label="logo">unifunds🎓</div>
+        <div className="flex gap-2">
+          <MobileNav />
+          <img src="/logo.png" width={100} alt="unifund logo" />
+        </div>
+
         <NavigationMenu className="hidden lg:flex">
           <NavigationMenuList className="flex gap-8">
             <NavigationMenuItem>

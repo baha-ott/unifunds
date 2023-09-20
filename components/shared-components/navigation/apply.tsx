@@ -4,8 +4,8 @@ import BtnPrimary from "../btn-primary";
 
 const Apply = () => {
   return (
-    <div className="flex items-center gap-2">
-      <Button variant="secondary">
+    <div className="flex items-center gap-4">
+      <Button variant="outline" className="">
         <Link href="/">Log in</Link>
       </Button>
       <BtnPrimary>

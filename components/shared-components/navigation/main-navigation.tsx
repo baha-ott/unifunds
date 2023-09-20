@@ -5,7 +5,7 @@ import NavigationList from "./navigation-list";
 
 const MainNavigation = () => {
   return (
-    <header className="flex items-center justify-between mx-auto h-24 px-4">
+    <header className="flex items-center max-w-7xl justify-between mx-auto h-24 px-4">
       <div className="flex gap-2">
         {/* navigation on mobile */}
         <MobileNav />

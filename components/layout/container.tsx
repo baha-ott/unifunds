@@ -1,12 +1,16 @@
-interface Props  {
-    children: React.ReactNode;
-    className?:string;
+import { cn } from "@/lib/utils";
+
+interface Props {
+  children: React.ReactNode;
+  className?: string;
 }
 
-function Container({children, className = ""}: Props) {
+function Container({ children, className = "" }: Props) {
   return (
-    <div className={`max-w-7xl px-8 ${className}`}>{children}</div>
-  )
+    <div className={cn(`max-w-screen-2xl mx-auto px-8 ${className}`)}>
+      {children}
+    </div>
+  );
 }
 
-export default Container; 
+export default Container;

@@ -1,13 +1,21 @@
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 const BtnPrimary = ({
   title,
   children,
+  className,
 }: {
   title?: string;
   children?: React.ReactNode;
+  className?: string;
 }) => {
-  return <Button className="bg-brand-primary">{title || children}</Button>;
+  return (
+    <Button className={cn(`bg-brand-primary ${className || ""}`)}>
+      {title || children}
+      {/* short circiting */}
+    </Button>
+  );
 };
 
 export default BtnPrimary;

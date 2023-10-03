@@ -14,64 +14,39 @@ export default function Hero() {
     { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
     { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
     { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
   ];
+
   return (
     <section>
-      <Container className="flex flex-col items-center py-8 xl:flex-row xl:py-8 gap-8">
-        <div aria-label="text-box">
-          <TypographyH1
-            className="text-center xl:text-left"
-            title="some title goes here until i found the right title"
-          />
-          <TypographyP
-            title="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero
-          consectetur vitae, reiciendis porro soluta dolorem cupiditate sunt
-          eveniet sapiente explicabo iusto autem, corporis tenetur fugiat
-          corrupti facilis, accusamus voluptates. Dolorem?"
-            className="text-center xl:text-left"
-          />
-          <div
-            aria-label="call to action button to encourage user to support students"
-            className="mb-4 mt-8 flex gap-2 justify-center xl:justify-start"
-          >
-            <BtnPrimary title="Support now" />
-            <Button variant="outline" className="">
-              <Link href="/">Why us 🤔?</Link>
-            </Button>
-          </div>
-          <Separator className="mt-16 mb-8" />
-          {/* partners logos */}
-
-          <div className="flex flex-col items-center gap-4 xl:flex-row xl:gap-8">
-            <p className="text-center  text-lg mb-2 xl:text-left text-muted-foreground">
-              Partners :
-            </p>
-            <div className="grid grid-cols-3 gap-4 xl:gap-8">
-              {imgSrc.map(({ src, alt }) => (
-                <Image
-                  src={src}
-                  width={150}
-                  height={150}
-                  alt={alt}
-                  quality={75}
-                />
-              ))}
-            </div>
-          </div>
+      <Container
+        aria-label="hero text box"
+        className="flex flex-col items-center  py-12 sm:py-16 sm:max-w-3xl xl:max-w-5xl xl:py-32"
+      >
+        <TypographyH1
+          title="Support the palestinian's top students"
+          className="text-gray-primary text-center"
+        />
+        <TypographyP
+          title="We in unifunds believes that every palestinian have the right to learn, Our mession is to make sure that 
+        the scholarships goes to the right students, suppors us now"
+          className="sm:px-12 text-center"
+        />
+        <div
+          aria-label="call to action button to encourage user to support students"
+          className="mb-4 mt-8 flex gap-2 justify-center xl:justify-start"
+        >
+          <BtnPrimary title="Support students" />
+          <Button variant="outline" className="">
+            <Link href="/">Why us 🤔?</Link>
+          </Button>
         </div>
-        <div aria-label="illustration-box" className="flex w-full gap-2">
-          <div className="relative w-full">
-            <Image
-              src="/imgs/hero/hero.webp"
-              alt="f"
-              layout="responsive"
-              width={150}
-              height={150}
-            />
-          </div>
+        <Separator className="mt-16 mb-8" />
+        {/* partners logos */}
+
+        <div className="flex gap-4">
+          {imgSrc.map(({ src, alt }) => (
+            <Image src={src} width={150} height={150} alt={alt} quality={75} />
+          ))}
         </div>
       </Container>
     </section>

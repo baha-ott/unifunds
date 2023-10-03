@@ -6,6 +6,7 @@ import NavigationList from "./navigation-list";
 import Link from "next/link";
 
 const MainNavigation = () => {
+  
   return (
     <header className="flex items-center justify-between mx-auto h-24 px-8">
       <div className="flex gap-2">

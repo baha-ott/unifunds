@@ -5,8 +5,10 @@ import MobileNav from "./mobile-nav";
 import NavigationList from "./navigation-list";
 import Link from "next/link";
 
-const MainNavigation = () => {
-  
+
+const MainNavigation = async () => {
+
+
   return (
     <header className="flex items-center justify-between mx-auto h-24 px-8">
       <div className="flex gap-2">
@@ -25,6 +27,7 @@ const MainNavigation = () => {
 
       {/* apply and login button */}
       <Apply />
+   
     </header>
   );
 };

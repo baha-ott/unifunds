@@ -1,4 +1,3 @@
-import MainNavigation from "@/components/shared-components/navigation/main-navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
@@ -15,10 +14,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <MainNavigation />
         {children}
       </body>
     </html>

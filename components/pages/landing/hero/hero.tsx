@@ -45,7 +45,7 @@ export default function Hero() {
 
         <div className="flex gap-4">
           {imgSrc.map(({ src, alt }) => (
-            <Image src={src} width={150} height={150} alt={alt} quality={75} />
+            <Image key={src} src={src} width={150} height={150} alt={alt} quality={75} />
           ))}
         </div>
       </Container>

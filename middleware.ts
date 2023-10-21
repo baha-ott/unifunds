@@ -1,4 +1,13 @@
-export { default } from "next-auth/middleware"
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
 
-// this applies next-auth only to matching routes 
-export const config = { matcher: ["/dashboard"] }
+import type { NextRequest } from 'next/server'
+
+
+export async function middleware(req: NextRequest) {
+    const res = NextResponse.next()
+    const supabase = createMiddlewareClient({ req, res })
+    await supabase.auth.getSession()
+   
+    return res
+}

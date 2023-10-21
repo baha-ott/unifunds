@@ -1,31 +1,22 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import Link from "next/link";
+import { Button } from "../../ui/button";
 import BtnPrimary from "../btn-primary";
-import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/route";
-import Image from "next/image";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const Apply = async () => {
-  const session = await getServerSession(options);
+const Apply = () => {
+  const supabase = createClientComponentClient();
 
   return (
     <div className="flex items-center gap-4">
-      <Button variant="outline" className="">
-        {!session ? (
-          <Link href="/api/auth/signin">Log in</Link>
-        ) : (
-          <Image
-            src={session.user?.image || ""}
-            alt={`${session.user?.name} profile picture`}
-            height={30}
-            width={30}
-            className="rounded-full"
-          />
-        )}
+      <Button variant="outline">
+        <Link href="/login">login</Link>
       </Button>
       <BtnPrimary>
-        <Link href="/">Apply now</Link>
+        <Link href="/login">Apply now</Link>
       </BtnPrimary>
+
+      <button onClick={() => supabase.auth.signOut()}>logout</button>
     </div>
   );
 };

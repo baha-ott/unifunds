@@ -57,7 +57,7 @@ const MobileNav = () => {
 
           <ul className="mt-8 flex flex-col gap-8">
             {mobileNavList.map((props) => (
-              <MobileNavItem {...props} />
+              <MobileNavItem key={props.title} {...props} />
             ))}
           </ul>
 

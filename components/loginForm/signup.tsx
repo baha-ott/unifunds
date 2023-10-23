@@ -59,18 +59,18 @@ export default function SignUpForm({
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
     setState("loading");
     const signUP = async () => {
-      const supabase = createClientComponentClient();
-
-      const res = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
+      const res = await fetch("/auth/sign-up", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email, password: data.password }),
       });
 
-      if (!res.error) {
+      const supabaseRes = await res.json();
+
+      if (!supabaseRes.error) {
         onChangeMsg({ msg: "Check your inbox to confirm your email", err: "" });
       }
-      if (res.error) {
-        onChangeMsg({ msg: "", err: res.error.message });
+      if (supabaseRes.error) {
+        onChangeMsg({ msg: "", err: supabaseRes.error.message });
       }
 
       setState("submitted");

@@ -16,8 +16,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export const dynamic = "force-dynamic";
-
 export interface msg {
   msg: string;
   err: string;
@@ -65,7 +63,7 @@ export default function Login() {
             />
           )}
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="flex flex-col justify-center">
           {(msg || err) && (
             <Alert
               className={`mt-4 ${
@@ -81,7 +79,7 @@ export default function Login() {
               </AlertDescription>
             </Alert>
           )}
-          <Image src="/logo.png" width={80} height={0} alt="unifunds logo"/>
+          <Image src="/logo.png" width={80} height={0} alt="unifunds logo" />
         </CardFooter>
       </Card>
     </div>

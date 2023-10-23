@@ -5,14 +5,14 @@ import { NextResponse } from 'next/server'
 
 
 export async function POST(request: Request) {
-    const requestUrl = new URL(request.url)
-    const formData = await request.formData()
-    const email = String(formData.get('email'))
-    const password = String(formData.get('password'))
+    const requestUrl = new URL(request.url);
+    const res = await request.json();
+    const { email } = res;
+    const { password } = res;
     const cookieStore = cookies()
     const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 
-    await supabase.auth.signUp({
+    const supabaseRes = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -20,7 +20,5 @@ export async function POST(request: Request) {
         },
     })
 
-    return NextResponse.redirect(requestUrl.origin, {
-        status: 301,
-    })
+    return NextResponse.json(supabaseRes)
 }

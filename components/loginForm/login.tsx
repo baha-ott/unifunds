@@ -19,10 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import BtnFormSubmit from "./BtnFormSubmit";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm({
   changeFormStatus,
@@ -44,22 +43,19 @@ export default function LoginForm({
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
     setState("loading");
     const signIn = async () => {
-      const supabase = createClientComponentClient();
-
-      const res = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
+      const res = await fetch("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email, password: data.password }),
       });
 
-      console.log(res);
+      const supabaseRes = await res.json();
 
-      if (!res.error) {
-        router.push("/dashboard");
+      if (supabaseRes.error) {
+        onChangeMsg({ msg: "", err: supabaseRes.error.message });
+        return;
       }
 
-      if (res.error) {
-        onChangeMsg({ msg: "", err: res.error.message });
-      }
+      router.push("/dashboard");
 
       setState("submitted");
       return;
@@ -99,7 +95,7 @@ export default function LoginForm({
         />
         <BtnFormSubmit title="log in" loadingTitle="logging in" state={state} />
         <FormDescription>
-          {" don\'t have an account"}
+          {" don't have an account"}
           <span
             className="hover:cursor-pointer text-blue-600"
             onClick={() => changeFormStatus("sign-up")}

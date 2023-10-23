@@ -20,7 +20,7 @@ export default function Hero() {
     <section>
       <Container
         aria-label="hero text box"
-        className="flex flex-col items-center  py-12 sm:py-16 sm:max-w-3xl xl:max-w-5xl xl:py-32"
+        className="flex flex-col items-center py-12 sm:py-16 sm:max-w-3xl xl:max-w-5xl xl:py-32"
       >
         <TypographyH1
           title="Support the palestinian's top students"
@@ -41,13 +41,6 @@ export default function Hero() {
           </Button>
         </div>
         <Separator className="mt-16 mb-8" />
-        {/* partners logos */}
-
-        <div className="flex gap-4">
-          {imgSrc.map(({ src, alt }) => (
-            <Image key={src} src={src} width={150} height={150} alt={alt} quality={75} />
-          ))}
-        </div>
       </Container>
     </section>
   );

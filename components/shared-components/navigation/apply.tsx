@@ -9,11 +9,8 @@ const Apply = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <Button variant="outline">
-        <Link href="/login">login</Link>
-      </Button>
       <BtnPrimary>
-        <Link href="/login">Apply now</Link>
+        <Link href="/sign-up">Apply now</Link>
       </BtnPrimary>
 
       <button onClick={() => supabase.auth.signOut()}>logout</button>

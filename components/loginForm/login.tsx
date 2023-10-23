@@ -18,10 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import BtnPrimary from "../shared-components/btn-primary";
+
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import BtnFormSubmit from "./BtnFormSubmit";
 
 export default function LoginForm({
   changeFormStatus,
@@ -30,7 +31,7 @@ export default function LoginForm({
   changeFormStatus: (status: "sign-up" | "sign-in") => void;
   onChangeMsg: (msg: { msg: string; err: string }) => void;
 }) {
-  const [state, setState] = useState<"loading" | "submitted">();
+  const [state, setState] = useState<"loading" | "submitted" | "">("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,7 +70,7 @@ export default function LoginForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -96,11 +97,9 @@ export default function LoginForm({
             </FormItem>
           )}
         />
-        <BtnPrimary type="submit" disabled={state === "loading"}>
-          {state === "loading" ? "loggin in" : "log in"}
-        </BtnPrimary>
+        <BtnFormSubmit title="log in" loadingTitle="logging in" state={state} />
         <FormDescription>
-          {"don't have an account"}
+          {" don\'t have an account"}
           <span
             className="hover:cursor-pointer text-blue-600"
             onClick={() => changeFormStatus("sign-up")}

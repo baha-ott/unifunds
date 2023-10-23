@@ -4,10 +4,21 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-const formSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(2).max(50),
-});
+const formSchema = z
+  .object({
+    email: z.string().min(2).max(50),
+    password: z.string().min(2).max(50),
+    confirmPassword: z.string(),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["confirmPassword"],
+    }
+  );
 
 import {
   Form,
@@ -22,8 +33,10 @@ import {
 import { Input } from "@/components/ui/input";
 import BtnPrimary from "../shared-components/btn-primary";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { msg } from "@/app/login/page";
+import { msg } from "@/app/sign-up/page";
 import { useState } from "react";
+import SpinnerBtn from "../shared-components/spinnerBtn";
+import BtnFormSubmit from "./BtnFormSubmit";
 
 export default function SignUpForm({
   changeFormStatus,
@@ -33,13 +46,14 @@ export default function SignUpForm({
   onChangeMsg: (msg: msg) => void;
 }) {
   // contriolling form states
-  const [state, setState] = useState<"loading" | "submitted">();
+  const [state, setState] = useState<"loading" | "submitted" | "">("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
@@ -69,7 +83,7 @@ export default function SignUpForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -96,9 +110,24 @@ export default function SignUpForm({
             </FormItem>
           )}
         />
-        <BtnPrimary type="submit" disabled={state === "loading"}>
-          {state === "loading" ? "signing up" : "sign up"}
-        </BtnPrimary>
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>confirm password</FormLabel>
+              <FormControl>
+                <Input placeholder="******" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <BtnFormSubmit
+          title="sign up"
+          loadingTitle="signing up"
+          state={state}
+        />
         <FormDescription>
           already have an account{" "}
           <span

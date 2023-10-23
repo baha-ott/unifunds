@@ -1,6 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -12,8 +12,8 @@ export default async function DashboardPage({}) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/landing");
+    throw new Error("You need to be authenticated to access this page");
   }
 
-  return <div>dashboard</div>;
+  return <h1>user dashboard</h1>;
 }

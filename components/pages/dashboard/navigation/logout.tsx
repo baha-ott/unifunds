@@ -16,8 +16,8 @@ export default function BtnLogout() {
       throw new Error("Failed to logout");
     }
 
-    router.refresh();
     router.push("/");
+    router.refresh();
   };
 
   return (

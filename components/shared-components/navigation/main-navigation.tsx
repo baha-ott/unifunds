@@ -9,6 +9,7 @@ import Link from "next/link";
 const MainNavigation = async () => {
 
 
+
   return (
     <header className="flex items-center justify-between mx-auto h-24 px-2">
       <div className="flex gap-2">

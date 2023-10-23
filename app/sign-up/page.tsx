@@ -15,6 +15,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 export interface msg {
   msg: string;
@@ -28,6 +30,8 @@ export default function Login() {
 
   const [{ msg, err }, setMsg] = useState<msg>({ msg: "", err: "" });
 
+  const router = useRouter();
+  const supabase = createClientComponentClient();
   const hanldFormStatusChange = (status: "sign-up" | "sign-in") => {
     setFormStatus(status);
   };
@@ -38,6 +42,18 @@ export default function Login() {
 
   useEffect(() => {
     setMsg({ msg: "", err: "" });
+
+    const handleUserEnterLoginPage = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        router.push("/dashboard");
+      }
+    };
+
+    handleUserEnterLoginPage();
   }, [formStatus]);
 
   return (

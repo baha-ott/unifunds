@@ -12,8 +12,9 @@ export default async function Landing() {
   } = await supabase.auth.getSession();
 
   if (session) {
-    const { data: user } = await supabase.from("user").select();
-    const role = user && user[0].role;
+    const { data } = await supabase.from("user").select();
+    console.log(data);
+    const role = data?.length && data.length > 0 ? data[0].role : "";
 
     if (role === "admin") {
       redirect("/dashboard/admin");
@@ -27,6 +28,7 @@ export default async function Landing() {
       redirect("/dashboard/student");
     }
   }
+
   return (
     <main>
       <Hero />

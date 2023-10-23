@@ -31,11 +31,8 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import BtnPrimary from "../shared-components/btn-primary";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { msg } from "@/app/sign-up/page";
 import { useState } from "react";
-import SpinnerBtn from "../shared-components/spinnerBtn";
 import BtnFormSubmit from "./BtnFormSubmit";
 
 export default function SignUpForm({
@@ -65,6 +62,7 @@ export default function SignUpForm({
       });
 
       const supabaseRes = await res.json();
+
 
       if (!supabaseRes.error) {
         onChangeMsg({ msg: "Check your inbox to confirm your email", err: "" });

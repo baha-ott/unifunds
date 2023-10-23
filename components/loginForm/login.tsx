@@ -1,3 +1,4 @@
+"use client";
 import * as z from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +53,7 @@ export default function LoginForm({
 
       if (supabaseRes.error) {
         onChangeMsg({ msg: "", err: supabaseRes.error.message });
+        setState("");
         return;
       }
 

@@ -10,7 +10,7 @@ const MainNavigation = async () => {
 
 
   return (
-    <header className="flex items-center justify-between mx-auto h-24 px-8">
+    <header className="flex items-center justify-between mx-auto h-24 px-2">
       <div className="flex gap-2">
         {/* navigation on mobile */}
         <MobileNav />

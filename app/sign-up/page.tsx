@@ -54,7 +54,7 @@ export default function Login() {
     };
 
     handleUserEnterLoginPage();
-  }, [formStatus]);
+  }, [formStatus, router, supabase]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">

@@ -10,12 +10,6 @@ import Link from "next/link";
 // image src
 
 export default function Hero() {
-  const imgSrc = [
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-    { src: "/imgs/partners/erasmus.png", alt: "Erasmus logo" },
-  ];
-
   return (
     <section>
       <Container

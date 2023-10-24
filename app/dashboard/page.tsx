@@ -1,6 +1,8 @@
+// components
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
+// nextjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

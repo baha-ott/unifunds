@@ -19,6 +19,8 @@ module.exports = {
       colors: {
         "brand-primary": "#0F7771",
         "gray-primary": "#010c0b",
+        "info": "rgba(15, 119, 113, 0.5)",
+        danger: "#DC3545",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -67,12 +69,59 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        load: {
+          // "0%, 20%": {
+          //   opacity: "0",
+          // },
+          // "20%, 40%": {
+          //   opacity: "0.5",
+          // },
+          // "40%, 60%": {
+          //   opacity: "0.8",
+          // },
+          // "100%": {
+          //   opacity: "1",
+          // },
+          "0%, 10%": {
+            opacity: "0",
+          },
+          "10%, 20%": {
+            opacity: "0.1",
+          },
+          "20%, 30%": {
+            opacity: "0.2",
+          },
+          "30%, 40%": {
+            opacity: "0.3",
+          },
+          "40%, 50%": {
+            opacity: "0.4",
+          },
+          "50%, 60%": {
+            opacity: "0.5",
+          },
+          "60%, 70%": {
+            opacity: "0.6",
+          },
+          "70%, 80%": {
+            opacity: "0.7",
+          },
+          "80%, 90%": {
+            opacity: "0.8",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
+
+        animation: {
+          "accordion-down": "accordion-down 0.2s ease-out",
+          "accordion-up": "accordion-up 0.2s ease-out",
+          load: "load 0.2s ease-out infinite",
+        },
       },
     },
+    plugins: [require("tailwindcss-animate")],
   },
-  plugins: [require("tailwindcss-animate")],
 };
+// animate-[load_0.5s_ease-in]

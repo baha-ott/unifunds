@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useState } from "react";
-import BtnFormSubmit from "./BtnFormSubmit";
+import BtnFormSubmit from "@/components/shared-components/BtnFormSubmit";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm({

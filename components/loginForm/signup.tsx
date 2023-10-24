@@ -7,7 +7,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 const formSchema = z
   .object({
     email: z.string().min(2).max(50),
-    password: z.string().min(2).max(50),
+    password: z
+      .string()
+      .min(8, "Password should contains at least 8 characters and have letters")
+      .max(50, "password should be at max 50 characters")
+      .regex(
+        /^(?=.*[a-zA-Z]).{8,}$/,
+        "Password should contains at least 8 characters and have letters"
+      ),
     confirmPassword: z.string(),
   })
   .refine(
@@ -33,7 +40,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { msg } from "@/app/sign-up/page";
 import { useState } from "react";
-import BtnFormSubmit from "./BtnFormSubmit";
+import BtnFormSubmit from "@/components/shared-components/BtnFormSubmit";
 
 export default function SignUpForm({
   changeFormStatus,
@@ -62,7 +69,6 @@ export default function SignUpForm({
       });
 
       const supabaseRes = await res.json();
-
 
       if (!supabaseRes.error) {
         onChangeMsg({ msg: "Check your inbox to confirm your email", err: "" });

@@ -1,10 +1,13 @@
 // components
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import FormSelectRole from "@/components/pages/dashboard/forms/new-user/form";
 
 // nextjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+// supabase
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import Container from "@/components/layout/container";
 
 export const dynamic = "force-dynamic";
 
@@ -29,13 +32,15 @@ export default async function DashboardPage() {
   if (role === "student") {
     redirect("/dashboard/student");
   }
+  if (role === "provider") {
+    redirect("/dashboard/provider");
+  }
 
   return (
-    <section className="flex justify-center mt-24">
-      <Alert className="max-w-2xl text-center mx-8 space-y-4 bg-brand-primary bg-opacity-5">
-        <AlertTitle>Welcome {data?.length && data[0].user_id}</AlertTitle>
-        <AlertDescription>Lets start create your profile</AlertDescription>
-      </Alert>
+    <section>
+      <Container className="flex flex-col gap-4 mt-24 max-w-2xl">
+        <FormSelectRole />
+      </Container>
     </section>
   );
 }

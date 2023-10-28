@@ -13,7 +13,7 @@ export async function PUT(request: Request) {
 
     const { data: user, error } = await supabase.from("user").select();
     if (!user || error) {
-        throw new Error("something went wrong")
+        throw new Error(error.message)
     }
 
     const [{ user_id }] = user

@@ -60,7 +60,6 @@ export default function FormInputs() {
       });
       // to update the user role
       const supabseBodyRes = await res.json();
-      console.log(supabseBodyRes);
       const { error } = supabseBodyRes;
 
       if (error) {
@@ -81,22 +80,22 @@ export default function FormInputs() {
     placeholder: string;
     label: string;
   }[] = [
-    {
-      name: "firstname",
-      placeholder: "John",
-      label: "Firstname",
-    },
-    {
-      name: "lastname",
-      placeholder: "Doe",
-      label: "Lastname",
-    },
-    {
-      name: "address",
-      placeholder: "Madrid - 21st",
-      label: "Address",
-    },
-  ];
+      {
+        name: "firstname",
+        placeholder: "John",
+        label: "Firstname",
+      },
+      {
+        name: "lastname",
+        placeholder: "Doe",
+        label: "Lastname",
+      },
+      {
+        name: "address",
+        placeholder: "Madrid - 21st",
+        label: "Address",
+      },
+    ];
   countries.registerLocale(enLocale);
   const countriesNames = countries.getNames("en", { select: "official" });
 

@@ -2,7 +2,7 @@
 
 import LoginForm from "@/components/loginForm/login";
 import SignUpForm from "@/components/loginForm/signup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon, AlertTriangleIcon } from "lucide-react";
@@ -15,8 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
+
 
 export interface msg {
   msg: string;
@@ -30,8 +29,6 @@ export default function Login() {
 
   const [{ msg, err }, setMsg] = useState<msg>({ msg: "", err: "" });
 
-  const router = useRouter();
-  const supabase = createClientComponentClient();
   const hanldFormStatusChange = (status: "sign-up" | "sign-in") => {
     setFormStatus(status);
   };
@@ -40,21 +37,6 @@ export default function Login() {
     setMsg(msg);
   };
 
-  useEffect(() => {
-    setMsg({ msg: "", err: "" });
-
-    const handleUserEnterLoginPage = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        router.push("/dashboard");
-      }
-    };
-
-    handleUserEnterLoginPage();
-  }, [formStatus, router, supabase]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -82,9 +64,8 @@ export default function Login() {
         <CardFooter className="flex flex-col justify-center">
           {(msg || err) && (
             <Alert
-              className={`mt-4 ${
-                msg ? "bg-brand-primary" : "bg-red-600"
-              } bg-opacity-10 text-gray-primary max-w-full`}
+              className={`mt-4 ${msg ? "bg-brand-primary" : "bg-red-600"
+                } bg-opacity-10 text-gray-primary max-w-full`}
             >
               <div className="flex items-center gap-2 mb-2">
                 {msg ? <AlertCircleIcon /> : <AlertTriangleIcon />}

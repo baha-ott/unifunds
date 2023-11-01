@@ -23,7 +23,7 @@ export interface msg {
 
 export default function Login() {
   const [formStatus, setFormStatus] = useState<"sign-up" | "sign-in">(
-    "sign-up"
+    "sign-in"
   );
 
   const [{ msg, err }, setMsg] = useState<msg>({ msg: "", err: "" });
@@ -78,14 +78,6 @@ export default function Login() {
           <Image src="/logo.png" width={80} height={0} alt="unifunds logo" />
         </CardFooter>
       </Card>
-      <h2>Confirm your signup</h2>
-
-      <p>Follow this link to confirm your user:</p>
-      <p>
-        <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">
-          Confirm your email
-        </a>
-      </p>
     </div>
   );
 }

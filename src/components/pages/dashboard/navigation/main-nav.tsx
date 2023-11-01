@@ -12,17 +12,18 @@ export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const { studentId } = useParams();
   const pathName = usePathname()
+
+  console.log(pathName)
 
 
   const navItems = [
     {
-      href: `/dashboard/student/${studentId}`,
+      href: `/dashboard/student`,
       title: "Overview"
     },
     {
-      href: `/dashboard/student/${studentId}/settings`,
+      href: `/dashboard/student/settings`,
       title: "Settings"
     },
   ]

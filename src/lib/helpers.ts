@@ -1,7 +1,9 @@
-export function doesURLincludeValidPath(str: string) {
-    if (str.includes("landing") || str.includes("sign-up") || str.includes("auth")) {
-        return true;
+export function doesURLincludeValidPath(str: string, values: string[]) {
+  for (let i = 0; i < values.length; i++) {
+    if (str.includes(values[i])) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }

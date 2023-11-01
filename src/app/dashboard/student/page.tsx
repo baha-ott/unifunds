@@ -2,6 +2,8 @@ import UserMessage from "@/components/pages/dashboard/userMessage/user-message";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardStudentPage() {
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.from("user").select();
@@ -16,7 +18,7 @@ export default async function DashboardStudentPage() {
     steps_to_do: steps,
     application_status: applicationStatus,
   } = data[0];
-  console.log(data);
+
 
   if (isUserAcceptedByAdmin) {
     return <h1>Accepted by the admin</h1>;

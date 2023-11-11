@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,50 +12,54 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import BtnLogout from "./logout";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export async function UserNav() {
-  const suapbase = createServerComponentClient({ cookies });
-  const { data: user, error } = await suapbase
-    .from("user")
-    .select("firstname, lastname, email");
+export function UserNav() {
+  const [user, setUser] = useState({
+    firstname: "Fetching your data",
+    email: "",
+    lastname: "",
+  });
 
-  console.log(user);
-  if (!user || error || user.length === 0) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-              <AvatarFallback>SC</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              Could not fetch your data
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
+  useEffect(() => {
+    async function getUsserData() {
+      const supabase = createClientComponentClient();
 
-          <BtnLogout />
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
+      const { data, error } = await supabase
+        .from("user")
+        .select("firstname, lastname, email");
 
-  const { firstname, email, lastname } = user[0];
+      if (error || data.length === 0) {
+        setUser((prev) => ({
+          ...prev,
+          firstname: "Could not fetch your data",
+        }));
+        return;
+      }
+
+      const user = data[0];
+
+      setUser(user);
+    }
+
+    getUsserData();
+  }, [user]);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+        <Button
+          variant="ghost"
+          className="relative h-8 w-8 rounded-full"
+          onClick={() => console.log("heelo you just clicked me")}
+        >
           <Avatar className="h-8 w-8">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>
+              {user.firstname.charAt(0).toUpperCase()}
+              {user.lastname.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -62,10 +67,10 @@ export async function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {firstname} {lastname}
+              {user.firstname} {user.lastname}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {email}
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>

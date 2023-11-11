@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import MobileNav from "@/components/shared-components/navigation/mobile-nav";
 
 export function MainNav({

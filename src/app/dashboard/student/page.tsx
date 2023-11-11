@@ -19,7 +19,6 @@ export default async function DashboardStudentPage() {
     application_status: applicationStatus,
   } = data[0];
 
-
   if (isUserAcceptedByAdmin) {
     return <h1>Accepted by the admin</h1>;
     // if the user accepted by the amdin he/she could able to access their fully functional dashboard

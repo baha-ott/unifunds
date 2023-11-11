@@ -4,7 +4,6 @@ import TypographyH1 from "@/components/shared-components/typography/typographyH1
 import { TypographyP } from "@/components/shared-components/typography/typographyP";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 import Link from "next/link";
 
 // image src

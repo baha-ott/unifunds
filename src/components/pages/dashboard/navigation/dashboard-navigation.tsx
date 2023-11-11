@@ -1,11 +1,11 @@
-import MobileNav from "@/components/shared-components/navigation/mobile-nav";
+"use client";
 import { MainNav } from "./main-nav";
 import { Search } from "./search";
 import { UserNav } from "./user-nav";
 
 export default function DashboardHeader() {
   return (
-    <div className="flex-col md:flex">
+    <div className="flex-col md:flex" onClick={(e) => console.log(e.target)}>
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
           <MainNav className="mx-6" />

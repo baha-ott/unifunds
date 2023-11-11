@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { cn } from "@/lib/utils";
@@ -16,50 +15,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 
-const profileFormSchema = z.object({
-  username: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Username must not be longer than 30 characters.",
-    }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
-      })
-    )
-    .optional(),
-});
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { PlusIcon } from "lucide-react";
+import { profileFormSchema } from "@/lib/forms-schema";
+import { Button } from "@/components/ui/button";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect } from "react";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  bio: "I own a computer.",
-  urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
-  ],
+  firstname: "",
+  lastname: "",
+  description: "",
+  nationality: "",
+  university: "",
+  major: "",
+  avatar: "",
 };
 
 export function ProfileForm() {
@@ -69,12 +44,10 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
-  const { fields, append } = useFieldArray({
-    name: "urls",
-    control: form.control,
-  });
-
   function onSubmit(data: ProfileFormValues) {
+    console.log(data);
+    console.log("it working");
+
     toast({
       title: "You submitted the following values:",
       description: (
@@ -85,106 +58,148 @@ export function ProfileForm() {
     });
   }
 
+  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    async function test() {
+      const { data } = await supabase.from("user").select("*, profile(*)");
+
+      console.log(data);
+    }
+
+    test();
+  }, []);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="avatar"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Profile picture</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <div className="relative h-36 w-36 border border-violet-300 rounded-full cursor-pointer">
+                  <label
+                    htmlFor="profile-picture"
+                    className="cursor-pointer h-full w-full flex items-center justify-center"
+                  >
+                    <PlusIcon />
+                  </label>
+                  <Input
+                    type="file"
+                    {...field}
+                    className="rounded-full w-40 h-40 hidden"
+                    name="profile-picture"
+                    id="profile-picture"
+                  />
+                </div>
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                We use your profile picture to identify it with your id make
+                sure to user a real photo of you
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="firstname"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Firstname</FormLabel>
+              <FormControl>
+                <Input placeholder="John" {...field} />
+              </FormControl>
+              <FormDescription>Should be the same as your id</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="email"
+          name="lastname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormLabel>Lastname</FormLabel>
+              <FormControl>
+                <Input placeholder="Doe" {...field} />
+              </FormControl>
+              <FormDescription>Should be the same as your id</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="nationality"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nationality</FormLabel>
+              <FormControl>
+                <Input placeholder="Palestinian" {...field} />
+              </FormControl>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                For double citizen students enter as this format
+                spanish-palestinian
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="university"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>University</FormLabel>
+              <FormControl>
+                <Input placeholder="Al-Quds open university" {...field} />
+              </FormControl>
+              <FormDescription>
+                You have to be studying at palestinian university
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="major"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Major</FormLabel>
+              <FormControl>
+                <Input placeholder="Al-Quds open university" {...field} />
+              </FormControl>
+              <FormDescription>What are you studying</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="bio"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>Descreption</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />
+                <Textarea placeholder="Tell us about your self" {...field} />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                Tell us more about your self to know you better
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: "" })}
-          >
-            Add URL
-          </Button>
-        </div>
-        <Button type="submit">Update profile</Button>
+        <Button type="submit">Save profile</Button>
       </form>
     </Form>
   );

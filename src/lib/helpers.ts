@@ -7,3 +7,11 @@ export function doesURLincludeValidPath(str: string, values: string[]) {
 
   return false;
 }
+
+export function isJSON(json: any) {
+  try {
+    return JSON.parse(json) && true;
+  } catch (e) {
+    return false;
+  }
+}

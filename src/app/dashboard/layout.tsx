@@ -1,5 +1,6 @@
-import DashboardHeader from "@/components/pages/dashboard/navigation/dashboard-navigation";
+import DashboardHeader from "@/app/dashboard/components/navigation/dashboard-navigation";
 import { Metadata } from "next";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "unifunds student dashboard",
@@ -15,6 +16,7 @@ export default async function DashboardLayout({
     <main>
       <DashboardHeader />
       {children}
+      <Toaster />
     </main>
   );
 }

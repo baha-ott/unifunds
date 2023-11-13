@@ -1,6 +1,7 @@
-import UserMessage from "@/components/pages/dashboard/userMessage/user-message";
+import UserMessage from "./components/userMessage/user-message";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import StudentDashboard from "./components/student-dashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -19,8 +20,8 @@ export default async function DashboardStudentPage() {
     application_status: applicationStatus,
   } = data[0];
 
-  if (isUserAcceptedByAdmin) {
-    return <h1>Accepted by the admin</h1>;
+  if (true) {
+    return <StudentDashboard />;
     // if the user accepted by the amdin he/she could able to access their fully functional dashboard
   }
 

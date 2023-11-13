@@ -20,6 +20,7 @@ export function UserNav() {
     firstname: "Fetching your data",
     email: "",
     lastname: "",
+    avatar_url: "",
   });
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export function UserNav() {
 
       const { data, error } = await supabase
         .from("user")
-        .select("firstname, lastname, email");
+        .select("firstname, lastname, email, profile(avatar_url)");
 
       if (error || data.length === 0) {
         setUser((prev) => ({
@@ -38,24 +39,29 @@ export function UserNav() {
         return;
       }
 
-      const user = data[0];
+      const { profile, ...user } = data[0];
 
-      setUser(user);
+      console.log(profile);
+
+      setUser((prev) => ({
+        ...prev,
+        avatar_url: profile.avatar_url,
+        ...user,
+      }));
     }
 
     getUsserData();
-  }, [user]);
+  }, []);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative h-8 w-8 rounded-full"
-          onClick={() => console.log("heelo you just clicked me")}
-        >
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+            <AvatarImage
+              src={user.avatar_url}
+              alt={user.firstname + " profile photo"}
+            />
             <AvatarFallback>
               {user.firstname.charAt(0).toUpperCase()}
               {user.lastname.charAt(0).toUpperCase()}

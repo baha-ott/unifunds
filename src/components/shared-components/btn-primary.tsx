@@ -19,7 +19,11 @@ const BtnPrimary = ({
 }: Props) => {
   return (
     <Button
-      className={cn(`bg-brand-primary ${className || ""}`)}
+      className={cn(
+        `bg-brand-primary ${
+          className || ""
+        } dark:bg-[#4CAF50] dark:text-[#fff] dark:hover:opacity-90 transition-all`
+      )}
       type={type}
       {...props}
     >

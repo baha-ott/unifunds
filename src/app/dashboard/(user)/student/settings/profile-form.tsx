@@ -136,6 +136,7 @@ export function ProfileForm() {
     }
 
     getUserFromData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleAddProfilePicture(

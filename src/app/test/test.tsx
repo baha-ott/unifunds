@@ -1,5 +1,3 @@
-import DataTable from "../dashboard/student/settings/documents/components/form-table-upload";
-
 export default async function DemoPage() {
   const filesToUpload = [
     {
@@ -17,7 +15,7 @@ export default async function DemoPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable filesToUpload={filesToUpload} />
+      {/* <DataTable filesToUpload={filesToUpload} /> */}
     </div>
   );
 }

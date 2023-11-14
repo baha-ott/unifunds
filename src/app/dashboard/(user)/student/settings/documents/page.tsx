@@ -1,7 +1,8 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import FormtableUpload from "./components/form-table-upload";
 import { cookies } from "next/headers";
-import { isJSON } from "@/lib/helpers";
+
+export const dynamic = "force-dynamic";
 
 export default async function DocumentsPage() {
   // make sure the id have to be the same as the folder name in the supabase storage

@@ -41,10 +41,10 @@ export function UserNav() {
 
       const { profile, ...user } = data[0];
 
-      console.log(profile);
-
+      console.log({ profile });
       setUser((prev) => ({
         ...prev,
+        // @ts-ignore
         avatar_url: profile.avatar_url,
         ...user,
       }));

@@ -17,6 +17,7 @@ interface Props {
 
 export default function FormtableUpload({ filesToUpload }: Props) {
   const [userId, setUserId] = useState("");
+  const [loading, setLoading] = useState(false);
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -30,11 +31,10 @@ export default function FormtableUpload({ filesToUpload }: Props) {
         const { id } = user;
         setUserId(id);
       }
-
-      
     }
 
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

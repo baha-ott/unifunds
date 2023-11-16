@@ -20,9 +20,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BtnFormSubmit from "@/components/shared-components/BtnFormSubmit";
 import { useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { UserContext } from "@/app/dashboard/provider/UserProvider";
 
 export default function LoginForm({
   changeFormStatus,
@@ -39,8 +41,20 @@ export default function LoginForm({
       password: "",
     },
   });
-
   const router = useRouter();
+  const { role } = useContext(UserContext);
+
+  if (role) {
+    if (role !== "user") {
+      router.push(`/dashboard/${role}`);
+
+      return;
+    }
+
+    router.push("/dashboard");
+    return;
+  }
+
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
     setState("loading");
     const signIn = async () => {
@@ -54,6 +68,11 @@ export default function LoginForm({
       if (supabaseRes.error) {
         onChangeMsg({ msg: "", err: supabaseRes.error.message });
         setState("");
+        return;
+      }
+
+      if (role !== "user") {
+        router.push(`/dashboard/${role}`);
         return;
       }
 

@@ -53,16 +53,4 @@ export const profileFormSchema = z.object({
   description: z.string().min(2, {
     message: "description must be at least 20 character.",
   }),
-  avatar: z.any().optional(),
 });
-
-// .refine(
-//     (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-//     `Max file size is 5MB.`
-//   )
-// .refine((files) => files?.length !== 1, "Image is required.")
-
-//     .refine(
-//       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-//       ".jpg, .jpeg, .png and .webp files are accepted."
-//     ),

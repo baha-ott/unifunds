@@ -17,11 +17,10 @@ import { Input } from "@/components/ui/input";
 
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { PlusIcon } from "lucide-react";
 import { profileFormSchema } from "@/lib/forms-schema";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+
 import Loading from "@/components/shared-components/loading";
 import BtnPrimary from "@/components/shared-components/btn-primary";
 
@@ -35,7 +34,6 @@ const defaultValues: Partial<ProfileFormValues> = {
   nationality: "",
   university: "",
   major: "",
-  avatar: "",
 };
 
 export function ProfileForm() {
@@ -49,7 +47,6 @@ export function ProfileForm() {
       university,
       description,
       major,
-      avatarUrl,
       userId,
     },
     setFormData,
@@ -139,85 +136,11 @@ export function ProfileForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleAddProfilePicture(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const files = e.target.files;
-    const { data: userData } = await supabase.from("user").select("user_id");
-
-    if (files && files.length > 0) {
-      if (userData && userData.length > 0) {
-        const { user_id: userId } = userData[0];
-        const { data, error } = await supabase.storage
-          .from("avatars")
-          .upload(`${userId}-avatar`, files[0]);
-        if (error) return;
-        const { data: profilePhotoData } = supabase.storage
-          .from("avatars")
-          .getPublicUrl(`${userId}-avatar`);
-
-        const { publicUrl } = profilePhotoData;
-
-        const { data: dataUpdateProfilePhoto, error: errorUpdateProfilePhoto } =
-          await supabase
-            .from("profile")
-            .update({ avatar_url: publicUrl })
-            .eq("user_id", userId);
-      }
-    }
-    setError(null);
-  }
-
   return loading ? (
     <Loading />
   ) : (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="avatar"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Profile picture</FormLabel>
-              <FormControl onChange={handleAddProfilePicture}>
-                <div className="relative h-36 w-36 border border-violet-300 rounded-full cursor-pointer">
-                  {avatarUrl ? (
-                    <Image
-                      src={`${avatarUrl}`}
-                      width={144}
-                      height={144}
-                      alt="Profile photo"
-                      className="rounded-full object-fill w-36 h-36"
-                    />
-                  ) : (
-                    <>
-                      {" "}
-                      <label
-                        htmlFor="profile-picture"
-                        className="cursor-pointer h-full w-full flex items-center justify-center"
-                      >
-                        <PlusIcon />
-                      </label>
-                      <Input
-                        type="file"
-                        {...field}
-                        className="rounded-full w-40 h-40 hidden"
-                        name="profile-picture"
-                        id="profile-picture"
-                      />
-                    </>
-                  )}
-                </div>
-              </FormControl>
-              <FormDescription>
-                We use your profile picture to identify it with your id make
-                sure to user a real photo of you
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="firstname"

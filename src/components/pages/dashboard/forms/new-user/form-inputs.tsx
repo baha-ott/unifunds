@@ -60,6 +60,7 @@ export default function FormInputs() {
         body: JSON.stringify({ ...data }),
       });
       // to update the user role
+
       const supabseBodyRes = await res.json();
       const { error } = supabseBodyRes;
 

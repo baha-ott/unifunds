@@ -39,6 +39,7 @@ export default async function RootLayout({
       </html>
     );
   }
+ 
   return (
     <html lang="en">
       <body className={`${roboto.className} overflow-x-hidden`}>

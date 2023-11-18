@@ -14,12 +14,14 @@ import {
 import BtnLogout from "./logout";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
 
 export function UserNav() {
   const [user, setUser] = useState({
     firstname: "Fetching your data",
     email: "",
     lastname: "",
+    avatar_url: "",
   });
 
   useEffect(() => {
@@ -38,13 +40,19 @@ export function UserNav() {
         return;
       }
 
-      const { profile, ...user } = data[0];
+      const {
+        firstname,
+        lastname,
+        email,
+        profile: { avatar_url },
+      }: any = data[0];
 
-      console.log({ profile });
       setUser((prev) => ({
         ...prev,
-        // @ts-ignore
-        ...user,
+        firstname,
+        lastname,
+        email,
+        avatar_url,
       }));
     }
 
@@ -56,6 +64,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
+            <AvatarImage src={user.avatar_url} alt="@shadcn" />
             <AvatarFallback>
               {user.firstname.charAt(0).toUpperCase()}
               {user.lastname.charAt(0).toUpperCase()}
@@ -77,12 +86,12 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            Profile
+            <Link href="/dashboard/student/settings/">Profile</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            Settings
+            <Link href="/dashboard/student/settings/">settings</Link>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

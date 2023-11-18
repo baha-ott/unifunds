@@ -45,7 +45,7 @@ export default function LoginForm({
   const { role } = useContext(UserContext);
 
   if (role) {
-    if (role !== "user") {
+    if (role !== "user" && role != "admin") {
       router.push(`/dashboard/${role}`);
 
       return;
@@ -72,6 +72,10 @@ export default function LoginForm({
       }
 
       if (role !== "user") {
+        if (role === "admin") {
+          router.push("/admin");
+          return;
+        }
         router.push(`/dashboard/${role}`);
         return;
       }

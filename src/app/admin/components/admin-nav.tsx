@@ -1,39 +1,29 @@
 "use client";
+import MobileNav from "@/components/shared-components/navigation/mobile-nav";
+import { cn } from "@/lib/utils";
 
 import Link from "next/link";
-
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import MobileNav from "@/components/shared-components/navigation/mobile-nav";
-import { useContext } from "react";
-import { UserContext } from "../../provider/UserProvider";
-import AdminNav from "../../(user)/admin/components/admin-nav";
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export default function AdminNav() {
   const pathName = usePathname();
-
-  const { role } = useContext(UserContext);
-
   const navItems = [
     {
-      href: `/dashboard/${role}`,
+      href: `/admin`,
       title: "Overview",
     },
     {
-      href: `/dashboard/${role}/settings`,
+      href: `/admin/users`,
+      title: "Users",
+    },
+    {
+      href: `/admin/settings`,
       title: "Settings",
     },
   ];
 
-  if (role === "admin") {
-    return <AdminNav />;
-  }
-
   return (
-    <nav className={cn("flex items-center ", className)} {...props}>
+    <nav className={cn("flex items-center ")}>
       <MobileNav items={navItems} title="Dashboard" />
       <div className="hidden lg:flex items-center space-x-4 lg:space-x-6">
         {navItems.map(({ href, title }) => (

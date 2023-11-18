@@ -5,9 +5,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import MobileNav from "@/components/shared-components/navigation/mobile-nav";
-import { useContext } from "react";
-import { UserContext } from "../../provider/UserProvider";
-import AdminNav from "../../(user)/admin/components/admin-nav";
 
 export function MainNav({
   className,
@@ -15,22 +12,16 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathName = usePathname();
 
-  const { role } = useContext(UserContext);
-
   const navItems = [
     {
-      href: `/dashboard/${role}`,
+      href: `/dashboard/provider`,
       title: "Overview",
     },
     {
-      href: `/dashboard/${role}/settings`,
+      href: `/dashboard/provider/settings`,
       title: "Settings",
     },
   ];
-
-  if (role === "admin") {
-    return <AdminNav />;
-  }
 
   return (
     <nav className={cn("flex items-center ", className)} {...props}>

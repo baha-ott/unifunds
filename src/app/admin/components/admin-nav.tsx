@@ -20,6 +20,10 @@ export default function AdminNav() {
       href: `/admin/settings`,
       title: "Settings",
     },
+    {
+      href: `/admin/offers`,
+      title: "Offers",
+    },
   ];
 
   return (

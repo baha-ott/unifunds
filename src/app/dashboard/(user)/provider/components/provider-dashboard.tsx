@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,10 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDateRangePicker } from "./data-range-picker";
 import { Overview } from "./overview";
 import { RecentSales } from "./recent-sales";
 import Reports from "../reports/page";
+import AddNewOffer from "./add-new-offer/add-new-offer";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -26,8 +25,7 @@ export default function DashboardPage() {
         <div className="flex flex-col md:flex-row items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
-            <CalendarDateRangePicker />
-            <Button>Download</Button>
+            <AddNewOffer />
           </div>
         </div>
 

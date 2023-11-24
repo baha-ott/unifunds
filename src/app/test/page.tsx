@@ -1,31 +1,65 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import BtnLogout from "../dashboard/components/navigation/logout";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-async function page({}) {
-  const supabase = createServerComponentClient({ cookies });
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-  const { data: user } = await supabase.from("user").select("*");
+import { Button } from "@/components/ui/button";
 
-  const { user_id } = user && user[0];
+import {
+  Form,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-  console.log(user);
+import { toast } from "@/components/ui/use-toast";
 
-  let { data: isAdmin, error } = await supabase.rpc("is_admin", {
-    userid: user_id,
+const FormSchema = z.object({
+  dob: z.date({
+    required_error: "A date of birth is required.",
+  }),
+});
+
+export default function CalendarForm() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
   });
 
-  if (!isAdmin) {
-    throw new Error("Only admin has access to this page");
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
   }
 
   return (
-    <div>
-      <BtnLogout />
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="dob"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date of birth</FormLabel>
+
+              <FormDescription>
+                Your date of birth is used to calculate your age.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
   );
 }
-
-export default page;

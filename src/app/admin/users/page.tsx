@@ -14,8 +14,8 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 import UserRow from "../components/user-row";
-import { columns } from "../components/tables/student-columns";
-import { StudentTable } from "../components/tables/student-table";
+import { columns } from "../components/tables/students/student-columns";
+import { StudentTable } from "../components/tables/students/student-table";
 
 export default async function AdminPage() {
   const supabase = createServerComponentClient({ cookies });

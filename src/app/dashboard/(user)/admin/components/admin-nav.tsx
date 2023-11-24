@@ -20,6 +20,10 @@ export default function AdminNav() {
       href: `/dashboard/admin/users`,
       title: "Users",
     },
+    {
+      href: `//admin/offers`,
+      title: "Users",
+    },
   ];
 
   return (

@@ -20,12 +20,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function CalendarEndDate() {
+export default function CalendarEndDate({ field }: { field: any }) {
   const [date, setDate] = React.useState<Date>();
 
   return (
     <Popover modal>
-        {/* for development only */}
+      {/* for development only */}
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -55,7 +55,14 @@ export default function CalendarEndDate() {
           </SelectContent>
         </Select>
         <div className="rounded-md border">
-          <Calendar mode="single" selected={date} onSelect={setDate} />
+          <Calendar
+            mode="single"
+            selected={field.value}
+            onSelect={field.onChange}
+            disabled={(date) =>
+              date > new Date() || date < new Date("1900-01-01")
+            }
+          />
         </div>
       </PopoverContent>
     </Popover>

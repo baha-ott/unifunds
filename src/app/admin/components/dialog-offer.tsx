@@ -26,7 +26,14 @@ export default function DialogOffer({ offer }: { offer: any }) {
 
   //   {\"id\":\"id-card\",\"name\":\"id-card\",\"title\":\"ID / Passport\",\"status\":\"upload\"}
 
-  async function handleAccept() {
+  async function handleAccept(e: React.MouseEvent) {
+    const clicked = e.target as HTMLButtonElement;
+    const clickedType = clicked.dataset.clicked;
+
+    if (clickedType === "div") {
+      return;
+    }
+
     const { data, error } = await supabase
       .from("profile")
       .select("files")
@@ -66,7 +73,7 @@ export default function DialogOffer({ offer }: { offer: any }) {
 
     const { error: errorUpdateOfferStatus } = await supabase
       .from("offers")
-      .update({ status: "accept" })
+      .update({ status: clickedType })
       .eq("id", offer.id);
 
     if (errorUpdateFiles) {
@@ -125,10 +132,25 @@ export default function DialogOffer({ offer }: { offer: any }) {
           </div>
         </div>
         <DialogFooter className="mt-4">
-          <div className="w-full space-x-2">
-            <BtnPrimary onClick={handleAccept}>Accept</BtnPrimary>
-            <Button variant="destructive">Reject</Button>
-            <Button variant="secondary">Review</Button>
+          <div
+            className="w-full space-x-2"
+            data-clicked="div"
+            onClick={handleAccept}
+          >
+            {offer.status === "reject" || offer.status === "accept" ? (
+              `${offer.status}ed no action to take`
+            ) : (
+              <>
+                {" "}
+                <BtnPrimary data-clicked="accept">Accept</BtnPrimary>
+                <Button data-clicked="reject" variant="destructive">
+                  Reject
+                </Button>
+                <Button data-clicked="review" variant="secondary">
+                  Review
+                </Button>
+              </>
+            )}
           </div>
         </DialogFooter>
       </DialogContent>

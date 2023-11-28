@@ -1,20 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import DialogOffer from "@/app/admin/components/dialog-offer";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 type Student = {
@@ -25,6 +14,8 @@ type Student = {
   email: string;
   status: string;
 };
+
+import { Checkbox } from "@/components/ui/checkbox";
 
 async function handleResetForm(user_id: string) {
   const supabase = createClientComponentClient();
@@ -51,6 +42,7 @@ async function handleResetForm(user_id: string) {
 }
 
 export const columns: ColumnDef<Student>[] = [
+  
   {
     accessorKey: "title",
     header: "Offer",

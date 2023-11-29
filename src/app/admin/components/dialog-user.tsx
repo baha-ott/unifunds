@@ -19,69 +19,19 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import { EyeIcon } from "lucide-react";
 
-export default function DialogOffer({ offer }: { offer: any }) {
+export default function DialogUser({ user }: { user: any }) {
+  const { profile } = user;
+
   const supabase = createClientComponentClient();
-  const date = new Date(offer.created_at).toDateString();
+  const date = new Date(user.created_at).toDateString();
 
   //   {\"id\":\"id-card\",\"name\":\"id-card\",\"title\":\"ID / Passport\",\"status\":\"upload\"}
 
   async function handleAccept(e: React.MouseEvent) {
     const clicked = e.target as HTMLButtonElement;
     const clickedType = clicked.dataset.clicked;
-
-    if (clickedType === "div") {
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("profile")
-      .select("files")
-      .eq("user_id", offer.provider_id);
-
-    if (!data || data.length < 1 || error) {
-      toast({
-        title: "Error",
-        description: "Failed during accept the offer",
-      });
-
-      return;
-    }
-
-    const { files } = data[0];
-
-    const filesArr = JSON.parse(files);
-    if (!filesArr) {
-      toast({
-        title: "Error",
-      });
-      return;
-    }
-    const newFile = {
-      id: offer.id,
-      name: "offers-files",
-      title: offer.title,
-      status: "upload",
-    };
-
-    const newFiles = JSON.stringify([...filesArr, newFile]);
-
-    const { error: errorUpdateFiles } = await supabase
-      .from("profile")
-      .update({ files: newFiles })
-      .eq("user_id", offer.provider_id);
-
-    const { error: errorUpdateOfferStatus } = await supabase
-      .from("offers")
-      .update({ status: clickedType })
-      .eq("id", offer.id);
-
-    if (errorUpdateFiles) {
-      toast({
-        title: "An error occured during accept the offer",
-      });
-      return;
-    }
   }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -89,7 +39,7 @@ export default function DialogOffer({ offer }: { offer: any }) {
       </DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-screen lg:h-auto lg:overflow-y-hidden">
         <DialogHeader>
-          <DialogTitle>{offer.provider}</DialogTitle>
+          <DialogTitle>{user.email}</DialogTitle>
           <DialogDescription>{date}</DialogDescription>
         </DialogHeader>
 
@@ -97,37 +47,44 @@ export default function DialogOffer({ offer }: { offer: any }) {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-full">
-                <Label>Offer title</Label>
-                <Input value={offer.title} disabled />
+                <Label>Fullname</Label>
+                <Input value={`${user.firstname} ${user.lastname}`} disabled />
               </div>
               <div className="w-full">
-                <Label>Budget</Label>
-                <Input value={`${offer.amount_money}$`} disabled />
+                <Label>Role</Label>
+                <Input value={`${user.role}$`} disabled />
               </div>
             </div>
             <div className=" flex items-center gap-2">
               <div className="w-full">
-                <Label>From</Label>
-                <Input value={offer.start_date_support} disabled />
+                <Label>Location</Label>
+                <Input value={`${user.address} - ${user.country}`} disabled />
               </div>
+
               <div className="w-full">
                 <Label>To</Label>
-                <Input value={offer.end_date_support} disabled />
+                <Input value={user.end_date_support} disabled />
               </div>
             </div>
-            <div className="">
-              <Label>Supported students amount</Label>
-              <Input value={offer.amount_students} disabled />
-            </div>
-            <div className="">
-              <Label>Required majors</Label>
-              <Input value={offer.major} disabled />
-            </div>
-
-            <div className="">
-              <Label>Offer Description</Label>
-              <Textarea value={offer.description} disabled />
-            </div>
+            {profile && user.role === "student" ? (
+              <>
+                {" "}
+                <div className="">
+                  <Label>Major</Label>
+                  <Input value={profile.major} disabled />
+                </div>
+                <div className="">
+                  <Label>University</Label>
+                  <Input value={profile.university} disabled />
+                </div>
+                <div className="">
+                  <Label>Offer Description</Label>
+                  <Textarea value={profile.nationality} disabled />
+                </div>
+              </>
+            ) : (
+              "No profile"
+            )}
           </div>
         </div>
         <DialogFooter className="mt-4">
@@ -136,8 +93,9 @@ export default function DialogOffer({ offer }: { offer: any }) {
             data-clicked="div"
             onClick={handleAccept}
           >
-            {offer.status === "reject" || offer.status === "accept" ? (
-              `${offer.status}ed no action to take`
+            {user.application_status === "reject" ||
+            user.application_status === "accept" ? (
+              `${user.application_status}ed no action to take`
             ) : (
               <>
                 {" "}

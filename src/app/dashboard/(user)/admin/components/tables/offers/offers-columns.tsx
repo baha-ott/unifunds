@@ -15,7 +15,6 @@ type Student = {
   status: string;
 };
 
-import { Checkbox } from "@/components/ui/checkbox";
 
 async function handleResetForm(user_id: string) {
   const supabase = createClientComponentClient();

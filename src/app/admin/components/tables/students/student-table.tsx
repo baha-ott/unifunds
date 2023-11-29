@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import DialogUser from "../../dialog-user";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,7 +43,6 @@ export function StudentTable<TData, TValue>({
         pageSize: 10,
       },
     },
-
 
     getFilteredRowModel: getFilteredRowModel(),
     state: {
@@ -95,6 +95,9 @@ export function StudentTable<TData, TValue>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
+                <TableCell>
+                  <DialogUser user={row.original} />
+                </TableCell>
               </TableRow>
             ))
           ) : (

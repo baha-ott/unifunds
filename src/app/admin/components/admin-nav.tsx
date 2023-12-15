@@ -24,6 +24,14 @@ export default function AdminNav() {
       href: `/admin/offers`,
       title: "Offers",
     },
+    {
+      href: "admin/programms",
+      title: "Programms",
+    },
+    {
+      href: "admin/money",
+      title: "Money management",
+    },
   ];
 
   return (

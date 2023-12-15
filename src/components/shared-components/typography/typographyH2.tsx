@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export function TypographyP({
+export default function TypographyH2({
   title,
   className,
 }: {
@@ -8,13 +8,13 @@ export function TypographyP({
   className?: string;
 }) {
   return (
-    <p
+    <h2
       className={cn(
-        `leading-7 text-muted-foreground [&:not(:first-child)]:mt-6`,
+        `scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0`,
         className
       )}
     >
       {title}
-    </p>
+    </h2>
   );
 }

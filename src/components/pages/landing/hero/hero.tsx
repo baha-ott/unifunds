@@ -13,7 +13,7 @@ export default function Hero() {
     <section>
       <Container
         aria-label="hero text box"
-        className="flex flex-col items-center py-12 sm:py-16 sm:max-w-3xl xl:max-w-5xl xl:py-32"
+        className="flex flex-col items-center pt-12  sm:max-w-3xl xl:max-w-5xl xl:pt-32"
       >
         <TypographyH1
           title="Support the palestinian's top students"
@@ -33,7 +33,7 @@ export default function Hero() {
             <Link href="/">Why us 🤔?</Link>
           </Button>
         </div>
-        <Separator className="mt-16 mb-8" />
+        <Separator className="mt-16" />
       </Container>
     </section>
   );

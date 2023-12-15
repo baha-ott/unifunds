@@ -10,7 +10,12 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ["lh3.googleusercontent.com", "localhost"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "localhost",
+      "avatar.vercel.sh",
+      "https://avatar.vercel.sh/leerob",
+    ],
   },
 };
 

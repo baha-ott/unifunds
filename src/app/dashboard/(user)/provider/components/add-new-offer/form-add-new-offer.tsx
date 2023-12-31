@@ -106,7 +106,7 @@ export function FormAddNewOffer() {
       provider_id: userId,
       provider: email,
       description: values.description,
-      amount_money: values.amount,
+      amount_money: +values.amount,
       amount_students: values.students,
       major: values.major,
       title: values.title,

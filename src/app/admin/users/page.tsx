@@ -2,14 +2,7 @@
  * v0 by Vercel.
  * @see https://v0.dev/t/TgtvXX3swO6
  */
-import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
-  Table,
-} from "@/components/ui/table";
+
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -35,13 +28,13 @@ export default async function AdminPage() {
     user: { id: userid },
   } = userData;
 
-  let { data: isAdmin, error } = await supabase.rpc("is_admin", {
-    userid,
-  });
+  // let { data: isAdmin, error } = await supabase.rpc("is_admin", {
+  //   userid,
+  // });
 
-  if (!isAdmin) {
-    throw new Error("Only admin has access to this page");
-  }
+  // if (!isAdmin) {
+  //   throw new Error("Only admin has access to this page");
+  // }
 
   const newUsers = users.filter((u) => u.application_status === "pinned");
   const students = users

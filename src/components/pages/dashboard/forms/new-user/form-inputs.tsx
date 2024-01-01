@@ -21,10 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 
 import { useState } from "react";
 import BtnFormSubmit from "@/components/shared-components/BtnFormSubmit";
@@ -47,9 +45,13 @@ export default function FormInputs() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setFormStatus("loading");
     const sendUserRole = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       const { data: updateRole, error } = await supabase
         .from("role")
-        .insert({ role: data.role });
+        .update({ role: data.role })
+        .eq("user_id", user.id);
 
       if (error) {
         setFormStatus("");
@@ -58,18 +60,13 @@ export default function FormInputs() {
         );
       }
 
-
-
       setFormStatus("");
       router.refresh();
-      router.push(`/dashboard/${data.role}`)
+      router.push(`/dashboard/${data.role}`);
     };
 
     sendUserRole();
   }
-
-  
-
 
   return (
     <Form {...form}>

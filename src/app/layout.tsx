@@ -20,7 +20,7 @@ export default async function RootLayout({
 }) {
   const supabase = createServerComponentClient({ cookies });
 
-  const { data, error } = await supabase.from("user").select("*");
+  const { data, error } = await supabase.from("role").select("*");
 
   if (data && data.length > 0) {
     const { role } = data[0];

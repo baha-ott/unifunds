@@ -35,9 +35,7 @@ const formSchema = z.object({
   gender: z.enum(["male", "female"], {
     required_error: "You need to select a  gender.",
   }),
-  gpa: z.number().min(60, {
-    message: "Your gpa should be at least 60",
-  }),
+  gpa: z.coerce.number().gte(60, 'Must be 60 and above'),
   nationality: z.string().min(3, {
     message: "nationality should be at least 3 charchters",
   }),

@@ -55,20 +55,20 @@ export const columns: ColumnDef<Student>[] = [
     header: "fullname",
   },
   {
-    accessorKey: "lastname",
-    header: "lastname",
+    accessorKey: "major",
+    header: "major",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "application_status",
+    accessorKey: "status",
     header: "Status",
   },
   {
-    accessorKey: "role",
-    header: "role",
+    accessorKey: "birthyear",
+    header: "birthyear",
   },
   {
     id: "actions",

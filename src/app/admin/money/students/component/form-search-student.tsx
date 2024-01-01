@@ -24,12 +24,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { SearchIcon } from "lucide-react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 });
 
 function FormSearchForAstudent({}) {
+  const supabase = createClientComponentClient()
   const [students, setStudents] = useState<any>([]);
   const [laoding, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,10 +41,13 @@ function FormSearchForAstudent({}) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    const { data, error } = await supabase
+    .from("profile")
+    .select('*')
+    .match({})
   }
 
   return (

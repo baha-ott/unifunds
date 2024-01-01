@@ -53,4 +53,9 @@ export const profileFormSchema = z.object({
   description: z.string().min(2, {
     message: "description must be at least 20 character.",
   }),
+  gpa: z.number().min(60, {
+    message: "Your gpa should be at least 60"
+  }),
+  birthyear: z.date().min(new Date('1900-01-01')),
+
 });

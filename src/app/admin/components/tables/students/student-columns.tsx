@@ -51,8 +51,8 @@ async function handleResetForm(user_id: string) {
 
 export const columns: ColumnDef<Student>[] = [
   {
-    accessorKey: "firstname",
-    header: "firstname",
+    accessorKey: "fullname",
+    header: "fullname",
   },
   {
     accessorKey: "lastname",

@@ -3,9 +3,14 @@ import { cookies } from "next/headers";
 
 export default async function AdminMainPage() {
   const supabse = createServerComponentClient({ cookies });
+  const {data: {user}, error} = await supabse.auth.getUser();
 
-  const { data } = await supabse.from("user").select("*");
+  if(error ||  !user) {
+    throw new Error("You have no access to this page")
+  }
 
-  console.log(data);
+
+  
+  const { data } = await supabse.from("role").select("role").eq("user_id", user.id);
   return <h1>Admin home page</h1>;
 }

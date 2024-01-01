@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCapIcon, BanknoteIcon } from "lucide-react";
 import Link from "next/link";
 import NewTransactionButton from "./components/NewTransactionButton";
+import InputSearch from "./components/searchProviders/input-search";
 
 function page({}) {
   const items = [
@@ -36,6 +37,7 @@ function page({}) {
             </Card>
           </Link>
         ))}
+
       </div>
     </>
   );

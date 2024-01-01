@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
+import InputSearch from "./searchProviders/input-search"
+
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -52,6 +53,8 @@ export function AddTransactionForm() {
   // Do something with the form values.
   // ✅ This will be type-safe and validated.
   async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    console.log(values)
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
@@ -67,7 +70,8 @@ export function AddTransactionForm() {
     const { data: offer, error: offerError } = await supabase
       .from("offers")
       .select("*")
-      .eq("email", values.by);
+      .eq("provider_id", values.by);
+
 
     if (!offer) {
       toast({
@@ -90,7 +94,7 @@ export function AddTransactionForm() {
     const { data, error } = await supabase.from("transactions").insert({
       title: values.title,
       amount: values.amount,
-      by: offer[0].provider_id,
+      provider_id: offer[0].provider_id,
       transaction_id: values.transaction_id,
       payed_on: values.payed_on,
       status: values.status,
@@ -197,22 +201,21 @@ export function AddTransactionForm() {
               </FormItem>
             )}
           />
-          <FormField
+       
+        </div>
+        <FormField
             control={form.control}
             name="by"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>From</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <InputSearch field={field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-
         <Button type="submit">Submit</Button>
       </form>
     </Form>

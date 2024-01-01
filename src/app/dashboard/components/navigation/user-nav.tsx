@@ -28,8 +28,9 @@ export function UserNav() {
 
       const { data, error } = await supabase
         .from("user")
-        .select("firstname, lastname, email, profile(avatar_url)");
+        .select("firstname, lastname, email");
 
+      console.log({data})
       if (error || data.length === 0) {
         setUser((prev) => ({
           ...prev,
@@ -38,9 +39,9 @@ export function UserNav() {
         return;
       }
 
-      const { profile, ...user } = data[0];
+      const {  ...user } = data[0];
 
-      console.log({ profile });
+      
       setUser((prev) => ({
         ...prev,
         // @ts-ignore

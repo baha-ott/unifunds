@@ -34,6 +34,8 @@ const defaultValues: Partial<ProfileFormValues> = {
   nationality: "",
   university: "",
   major: "",
+  gpa: 0,
+  birthyear: new Date(),
 };
 
 export function ProfileForm() {
@@ -48,6 +50,8 @@ export function ProfileForm() {
       description,
       major,
       userId,
+      gpa,
+      birthyear,
     },
     setFormData,
   ] = useState({
@@ -59,6 +63,8 @@ export function ProfileForm() {
     description: "",
     avatarUrl: "",
     userId: "",
+    gpa: "",
+    birthyear: new Date(),
   });
 
   //  to work with supabase
@@ -71,12 +77,12 @@ export function ProfileForm() {
   });
 
   async function onSubmit(data: ProfileFormValues) {
+   
     const { description, major, nationality, university } = data;
 
     const { data: updateData } = await supabase
-      .from("profile")
-      .update({ description, major, nationality, university })
-      .eq("user_id", userId);
+      .from("students")
+      .insert({ description, major, nationality, university, user_id: userId, gpa, birthyear, });
 
     toast({
       title: "You submitted the following values:",
@@ -92,23 +98,26 @@ export function ProfileForm() {
     async function getUserFromData() {
       const { data, error } = await supabase
         .from("user")
-        .select("*, profile(*)");
+        .select("*, students(*)");
       // getting user data from user table and profile table
       // there is a relation between user and profile
 
       if (data && data.length > 0) {
-        const { profile, ...user } = data[0];
+        const { students, ...user } = data[0];
+        console.log(students);
 
         setFormData((prev) => ({
           ...prev,
           firstname: user.firstname,
           lastname: user.lastname,
-          description: profile.description,
-          major: profile.major,
-          nationality: profile.nationality,
-          university: profile.university,
-          avatarUrl: profile.avatar_url,
+          description: students[0].description,
+          major: students[0].major,
+          nationality: students[0].nationality,
+          university: students[0].university,
+          avatarUrl: students[0].avatar_url,
+          gpa: students[0].gpa,
           userId: user.user_id,
+          birthyear: students[0].birthyear,
         }));
 
         form.setValue("firstname", user.firstname);
@@ -117,6 +126,8 @@ export function ProfileForm() {
         form.setValue("major", user.major);
         form.setValue("nationality", user.nationality);
         form.setValue("university", user.university);
+        form.setValue("gpa", user.gpa);
+        form.setValue("birthyear", user.birthyear);
 
         return;
       }
@@ -144,14 +155,13 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="firstname"
-          disabled={Boolean(firstname)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>firstname</FormLabel>
               <FormControl>
                 <Input placeholder={firstname} {...field} />
               </FormControl>
-              <FormDescription>Should be the same as your id</FormDescription>
+              <FormDescription>Should be the same as your id card</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -159,14 +169,13 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="lastname"
-          disabled={Boolean(lastname)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>lastname</FormLabel>
               <FormControl>
                 <Input placeholder={lastname} {...field} />
               </FormControl>
-              <FormDescription>Should be the same as your id</FormDescription>
+              <FormDescription>Should be the same as your id card</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -175,7 +184,6 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="nationality"
-          disabled={Boolean(nationality)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nationality</FormLabel>
@@ -193,11 +201,29 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="gpa"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>GPA</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={gpa ? gpa : "60"}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Your gpa should be at least 60 to be accepted 
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
           name="university"
-          disabled={Boolean(university)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>University</FormLabel>
@@ -220,7 +246,6 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="major"
-          disabled={Boolean(major)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Major</FormLabel>
@@ -238,7 +263,6 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="description"
-          disabled={Boolean(description)}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descreption</FormLabel>
@@ -257,7 +281,21 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <BtnPrimary type="submit">Save profile</BtnPrimary>
+        <FormField
+          control={form.control}
+          name="birthyear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Birthyear</FormLabel>
+              <FormControl>
+               <Input type="date" {...field}/>
+              </FormControl>
+              
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <BtnPrimary type="submit">Save Profile</BtnPrimary>
       </form>
     </Form>
   );

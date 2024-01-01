@@ -42,18 +42,7 @@ export default function LoginForm({
     },
   });
   const router = useRouter();
-  const { role } = useContext(UserContext);
 
-  if (role) {
-    if (role !== "user" && role != "admin") {
-      router.push(`/dashboard/${role}`);
-
-      return;
-    }
-
-    router.push("/dashboard");
-    return;
-  }
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (data) => {
     setState("loading");
@@ -68,15 +57,6 @@ export default function LoginForm({
       if (supabaseRes.error) {
         onChangeMsg({ msg: "", err: supabaseRes.error.message });
         setState("");
-        return;
-      }
-
-      if (role !== "user") {
-        if (role === "admin") {
-          router.push("/admin");
-          return;
-        }
-        router.push(`/dashboard/${role}`);
         return;
       }
 

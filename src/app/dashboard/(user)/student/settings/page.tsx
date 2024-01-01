@@ -1,7 +1,32 @@
 import { Separator } from "@/components/ui/separator";
-import { ProfileForm } from "./profile-form-no-avatar";
 
-export default function SettingsProfilePage() {
+import StudentForm from "./student-form";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import UserInfo from "@/app/admin/user-profile/[userId]/components/user-info";
+import { Alert } from "@/components/ui/alert";
+
+export default async function SettingsProfilePage() {
+  const supabase = createServerComponentClient({ cookies });
+
+  let { data: students, error } = await supabase.from("students").select("*");
+
+  if (!error && students && students.length > 0) {
+    const { status } = students[0];
+    console.log(status);
+
+    if (status === "accepted") {
+      return <UserInfo />;
+    }
+    if (status === "rejected") {
+      return (
+        <Alert>
+          <h3>You application rejected contact us for more information</h3>
+        </Alert>
+      );
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -12,7 +37,8 @@ export default function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      <ProfileForm />
+      {/* <ProfileForm /> */}
+      <StudentForm />
     </div>
   );
 }

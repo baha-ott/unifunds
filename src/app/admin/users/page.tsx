@@ -14,13 +14,12 @@ export default async function AdminPage() {
   const supabase = createServerComponentClient({ cookies });
 
   const { data: userData } = await supabase.auth.getUser();
-  const { data: users, error: errorUsers } = await supabase
-    .from("user")
-    .select("*, profile(*)");
+  const { data: studentsData, error: errorStudents } = await supabase
+    .from("students")
+    .select("*");
 
-  console.log(users);
 
-  if (!userData || !users) {
+  if (!userData || !studentsData) {
     throw new Error("Failed getting your info");
   }
   const {
@@ -36,14 +35,12 @@ export default async function AdminPage() {
   //   throw new Error("Only admin has access to this page");
   // }
 
-  const newUsers = users.filter((u) => u.application_status === "pinned");
-  const students = users
-    .filter((u) => u.role === "student")
-    .map((s) => <UserRow user={...s} />);
+  // const students = studentsData
+  //   .map((s) => <UserRow user={...s} />);
 
-  const providers = users
-    .filter((u) => u.role === "provider")
-    .map((s) => <UserRow user={...s} />);
+  // const providers = users
+  //   .filter((u) => u.role === "provider")
+  //   .map((s) => <UserRow user={...s} />);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -51,13 +48,13 @@ export default async function AdminPage() {
         <h1 className="font-semibold text-lg md:text-2xl">Recent Users</h1>
       </div>
       <div className="border shadow-sm rounded-lg">
-        <StudentTable columns={columns} data={newUsers} />
+        <StudentTable columns={columns} data={studentsData} />
       </div>
       <div className="flex items-center">
         <h1 className="font-semibold text-lg md:text-2xl">Users</h1>
       </div>
       <div className="border shadow-sm rounded-lg">
-        <StudentTable columns={columns} data={users} />
+        {/* <StudentTable columns={columns} data={users} /> */}
       </div>
     </main>
   );
